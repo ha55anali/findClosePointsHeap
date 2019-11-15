@@ -6,6 +6,8 @@ class star {
 public:
 	star(int,float,float);
 
+	int getId() { return id; };
+
 	friend float getDistance(star const& s1,star const& s2);
 private:
 	int id;
