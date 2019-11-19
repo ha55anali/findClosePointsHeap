@@ -14,6 +14,7 @@ public:
 	void removeTop();
 
 	void remove(int index);
+	void changeEl(int index, T const& newData);
 
 	T& operator[](int n) {
 		return h[n + 1];
@@ -90,6 +91,19 @@ void myHeap<T>::remove(int index) {
 		percolateUp(index);
 	else
 		heapify(index);
+}
+
+template<class T>
+void myHeap<T>::changeEl(int index, T const& newData)
+{
+	if (newData > h[index]) {
+		h[index] = newData;
+		heapify(index);
+	}
+	else {
+		h[index] = newData;
+		percolateUp(index);
+	}
 }
 
 template<class T>
