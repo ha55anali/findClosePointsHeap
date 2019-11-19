@@ -13,6 +13,8 @@ public:
 	T& getTop();
 	void removeTop();
 
+	void remove(int index);
+
 	T& operator[](int n) {
 		return h[n + 1];
 	}
@@ -75,6 +77,19 @@ void myHeap<T>::removeTop() {
 	--currSize;
 
 	heapify(1);
+}
+
+template <class T>
+void myHeap<T>::remove(int index) {
+	++index;//heap array starts from 1
+
+	swap(arr[index], arr[currSize]);
+	--currSize;
+
+	if (arr[index] > arr[currSize+1])
+		percolateUp(index);
+	else
+		heapify(index);
 }
 
 template<class T>
