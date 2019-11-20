@@ -14,7 +14,7 @@ public:
 	void removeTop();
 
 	void remove(int index);
-	void changeEl(int index, T const& newData);
+	void changeEl(int index, T& newData);
 
 	T& operator[](int n) {
 		return h[n + 1];
@@ -25,7 +25,7 @@ public:
 	}
 	
 	friend ostream& operator<<(ostream& os, myHeap<T> const& hp) {
-		for (int c = 1; c < hp.currSize; ++c) {
+		for (int c = 1; c < hp.currSize+1; ++c) {
 			cout << hp.h[c] << endl;
 		}
 
@@ -52,7 +52,7 @@ myHeap<T>::myHeap(int mSize)
 template<class T>
 myHeap<T>::~myHeap()
 {
-	delete h;
+	delete[] h;
 }
 
 template<class T>
@@ -84,25 +84,26 @@ template <class T>
 void myHeap<T>::remove(int index) {
 	++index;//heap array starts from 1
 
-	swap(arr[index], arr[currSize]);
+	swap(h[index],h[currSize]);
 	--currSize;
 
-	if (arr[index] > arr[currSize+1])
+	if (h[index] < h[currSize+1])
 		percolateUp(index);
 	else
 		heapify(index);
 }
 
 template<class T>
-void myHeap<T>::changeEl(int index, T const& newData)
+void myHeap<T>::changeEl(int index, T& newData)
 {
-	if (newData > h[index]) {
+	++index;
+	if (newData < h[index]) {
 		h[index] = newData;
-		heapify(index);
+		percolateUp(index);
 	}
 	else {
 		h[index] = newData;
-		percolateUp(index);
+		heapify(index);
 	}
 }
 
@@ -119,23 +120,22 @@ void myHeap<T>::percolateUp(int index)
 		swap(h[parent], h[index]);
 
 	percolateUp(parent);
-	
 
 }
 
 template<class T>
 void myHeap<T>::heapify(int index)
 {
-	int max = index;
+	int min = index;
 
-	if (2 * index <= currSize && h[2 * index] < h[max])
-		max = 2 * index;
+	if (2 * index <= currSize && h[2 * index] < h[min])
+		min = 2 * index;
 
-	if (2 * index + 1 <= currSize && h[2 * index+ 1] < h[max])
-		max = 2 * index+ 1;
+	if (2 * index + 1 <= currSize && h[2 * index+ 1] < h[min])
+		min = 2 * index+ 1;
 
-	if (max != index) {
-		swap(h[max], h[index]);
-		heapify(max);
+	if (min != index) {
+		swap(h[min], h[index]);
+		heapify(min);
 	}
 }
