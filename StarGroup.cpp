@@ -4,12 +4,6 @@
 starGroup::starGroup(string filename) {
 	readFile(filename);
 
-	//test print list
-	for (auto i = starList->begin(); i != starList->end(); ++i)
-	{
-		cout << *i << endl;
-	}
-
 	//create group list
 	groupList.resize(starCount);
 	for (int c = 0; c < starCount; ++c) {
@@ -22,7 +16,6 @@ starGroup::starGroup(string filename) {
 
 		for (int x = c + 1; x < starCount; ++x) {
 			groupPair temp(c, x, getDistance(starList->at(c), starList->at(x)));
-			cout << temp << endl;
 			starHeap->insert(temp);
 		}
 	}
@@ -39,9 +32,10 @@ void starGroup::getGroups()
 	while (getCurrentGroupCount() >= groups)
 	{
 		print();
-		cout << endl << "-------------------------------";
+		cout << endl << "-------------------------------" << endl;
 
-	
+
+
 		groupPair tempPair = starHeap->getTop();
 		starHeap->removeTop();
 
@@ -72,7 +66,6 @@ void starGroup::getGroups()
 				groupPos[c][star2] = -1;
 				
 			updateMatrix();
-			cout << "remove: " << c << " " << star2 << " " << starHeap->getSize() << endl << *starHeap << endl << endl;
 			}
 
 		}
@@ -85,18 +78,6 @@ void starGroup::print()
 	for (auto i = groupList.begin(); i != groupList.end(); ++i) {
 		for (auto k = i->begin(); k != i->end(); ++k) {
 			cout << *k << " ";
-		}
-		cout << endl;
-	}
-
-	//print heap
-	cout <<"size: " <<starHeap->getSize()<< *starHeap;
-
-	//print matrix
-	cout << endl;
-	for (auto i = groupPos.begin(); i != groupPos.end(); ++i) {
-		for (auto j = i->begin(); j != i->end(); ++j) {
-			cout << *j << "  ";
 		}
 		cout << endl;
 	}
