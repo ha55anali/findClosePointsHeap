@@ -21,6 +21,10 @@ struct groupPair {
 
 	groupPair() {};
 
+	void changeDis(float n) {
+		distance = n;
+	}
+
 	bool operator==(groupPair const& obj) {
 		if (distance == obj.distance)
 			return 1;
@@ -36,11 +40,23 @@ struct groupPair {
 			return 1;
 		return 0;
 	}
+
+	friend ostream& operator<<(ostream& os, groupPair const& g) {
+		cout << "star1: " << g.star1;
+		cout << "  star2: " << g.star2;
+		cout << "  distance: " << g.distance;
+
+		return os;
+	}
 };
 
 class starGroup {
 public:
 	starGroup(string filename);
+
+	void getGroups();
+
+	void print();
 
 private:
 	vector< vector<int> > groupPos;
@@ -52,6 +68,8 @@ private:
 
 	//updates the matrix positions according to the linked list
 	void updateMatrix();
+
+	int getCurrentGroupCount();
 
 	//verifies the string only contains numbers, spaces, 2 or less '.' or '#' 
 	bool checkNumericalSymbol(string lot);
